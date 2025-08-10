@@ -1,4 +1,4 @@
-import { MenuItem } from "@/components";
+import { MenuItem, Typography } from "@/components";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +8,8 @@ import {
 import { ChevronDownIcon, DatabaseIcon, TicketIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import DocumentDropzone from "./document-dropzon";
+import AccordianParametersMenuItem from "./accordian-parameters-menu-item";
 
 const SideBarContent = () => {
   const thumbnailCards = [
@@ -23,33 +25,29 @@ const SideBarContent = () => {
       <div className="flex flex-col items-stretch px-4 py-2 w-full">
         {/* New char button */}
         <Link href={"/"} target="_parent">
-          <MenuItem>
+          <MenuItem className="text-sm">
             <p>New char</p>
           </MenuItem>
         </Link>
+
+        <DocumentDropzone />
 
         {/* Store usage accordion */}
         <Accordion type="single" collapsible>
           <AccordionItem value="store-usage" className="border-none w-full">
             <AccordionTrigger className="w-full group">
-              <MenuItem className="flex items-center justify-between w-full">
+              <MenuItem className="flex items-center justify-between w-full text-sm">
                 <div className="inline-flex items-end gap-[9px]">
                   <DatabaseIcon className="w-5 h-5" />
-                  <div className="font-medium text-[#d9d9d9] text-base">
-                    Store usage
-                  </div>
+                  <div className="">Store usage</div>
                 </div>
-                <ChevronDownIcon className="h-5 w-5 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180 text-primary" />
+                <ChevronDownIcon className="h-5 w-5 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180 text-primary1" />
               </MenuItem>
             </AccordionTrigger>
-            <AccordionContent className="pl-4 pr-0 py-0">
-              <div className="flex flex-col items-start gap-[11px] w-full">
-                <div className="font-medium text-white text-base mt-[-1.00px]">
-                  Chunks: 200
-                </div>
-                <div className="font-medium text-white text-base">
-                  Embeddings: 520
-                </div>
+            <AccordionContent className="pl-4 pr-0 pb-2 text-white">
+              <div className="flex flex-col items-start gap-[0.5rem] w-full">
+                <AccordianParametersMenuItem label="Chunks" value="200" />
+                <AccordianParametersMenuItem label="Embeddings" value="520" />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -59,43 +57,35 @@ const SideBarContent = () => {
         <Accordion type="single" collapsible>
           <AccordionItem value="tokens-usage" className="border-none w-full">
             <AccordionTrigger className="w-full group">
-              <MenuItem className="flex items-center justify-between w-full">
+              <MenuItem className="flex items-center justify-between w-full text-sm">
                 <div className="inline-flex items-end gap-[9px]">
                   <TicketIcon className="w-5 h-5" />
-                  <div className="font-medium text-[#d9d9d9] text-base">
-                    Tokens usage
-                  </div>
+                  <Typography variant="body2">Tokens usage</Typography>
                 </div>
-                <ChevronDownIcon className="h-5 w-5 shrink-0 text-primary transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                <ChevronDownIcon className="h-5 w-5 shrink-0 text-primary1  transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </MenuItem>
             </AccordionTrigger>
-            <AccordionContent className="pl-4 pr-0 py-0">
-              <div className="flex flex-col items-start gap-[11px] w-full">
-                <div className="flex flex-col items-start justify-center w-full">
-                  <div className="font-medium text-[#d9d9d9] text-base mt-[-1.00px]">
-                    Prompt tokens: 25015
-                  </div>
-                  <div className="font-medium text-[#b3b3b3] text-xs">
-                    (Tokens inputted to LLM)
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start justify-center w-full">
-                  <div className="font-medium text-[#d9d9d9] text-base mt-[-1.00px]">
-                    Completion tokens: 15037
-                  </div>
-                  <div className="font-medium text-[#b3b3b3] text-xs">
-                    (Tokens outputted from LLM)
-                  </div>
-                </div>
-
-                <div className="font-medium text-[#d9d9d9] text-base">
-                  Total token: 40052
-                </div>
-
-                <div className="font-medium text-[#d9d9d9] text-base w-full">
-                  Total cost (USD): 0.00052
-                </div>
+            <AccordionContent className="pl-4 pr-0 pb-2">
+              <div className="flex flex-col items-start gap-[0.5rem] w-full">
+                <AccordianParametersMenuItem
+                  label="Prompt tokens"
+                  value="25015"
+                  helperText="Tokens inputted to LLM"
+                />
+                <AccordianParametersMenuItem
+                  label="Completion tokens"
+                  value="15037"
+                  helperText="Tokens outputted from LLM"
+                />
+                <AccordianParametersMenuItem
+                  label="Total token"
+                  value="40052"
+                  helperText="Total tokens used"
+                />
+                <AccordianParametersMenuItem
+                  label="Total cost (USD)"
+                  value="0.00052"
+                />
               </div>
             </AccordionContent>
           </AccordionItem>

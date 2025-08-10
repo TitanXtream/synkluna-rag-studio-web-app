@@ -18,7 +18,7 @@ const Avatar = React.forwardRef<
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gradient-to-r from-primary to-secondary",
+      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gradient-to-r from-primary1 to-primary2",
       size === "sm" && "h-8 w-8",
       size === "md" && "h-10 w-10",
       size === "lg" && "h-12 w-12",

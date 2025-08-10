@@ -9,7 +9,7 @@ const MenuItem = ({
   return (
     <div
       className={cn(
-        "w-full hover:bg-gray-800/50 transition-colors text-white px-4 min-h-10 flex items-center",
+        "w-full hover:bg-gray-800/50 transition-colors text-white px-4 min-h-10 flex items-center cursor-pointer",
         className
       )}
       {...props}

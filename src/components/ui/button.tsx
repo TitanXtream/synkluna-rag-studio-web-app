@@ -1,57 +1,106 @@
-import { Slot } from "@radix-ui/react-slot";
-import { type VariantProps, cva } from "class-variance-authority";
-import * as React from "react";
-import { cn } from "@/utils/tw-utils";
+import { cva, VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
+import React from "react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "flex items-center justify-center font-semibold duration-150 hover:scale-105 active:scale-95 focus:outline-none outline-none ring-0 disabled:opacity-50 disabled:pointer-events-none rounded-full",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        contained: "",
+        outlined: "border",
+        text: "bg-transparent shadow-none",
+        link: "px-0 py-0 hover:underline underline-offset-4 hover:scale-100 active:scale-100",
+      },
+      color: {
+        primary:
+          "bg-gradient-to-r from-primary1 to-primary2 text-white border-primary1",
+        // secondary: 'text-white bg-gray-600 hover:bg-gray-700 border-gray-600',
+        destructive: "text-white bg-red-600 hover:bg-red-700 border-red-600",
+        constructive:
+          "text-white bg-green-600 hover:bg-green-700 border-green-600",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        sm: "px-6 py-2",
+        md: "px-8 py-4",
+        lg: "px-8 py-6",
       },
     },
+    compoundVariants: [
+      {
+        variant: "outlined",
+        color: "primary",
+        class:
+          "bg-transparent text-primary1-400 hover:text-primary1-600 hover:bg-primary1-200",
+      },
+      // {
+      //   variant: 'outlined',
+      //   color: 'secondary',
+      //   class: 'bg-transparent text-gray-600 hover:bg-gray-50',
+      // },
+      {
+        variant: "outlined",
+        color: "destructive",
+        class: "bg-transparent text-red-600 hover:bg-red-50",
+      },
+      {
+        variant: "outlined",
+        color: "constructive",
+        class: "bg-transparent text-green-600 hover:bg-green-50",
+      },
+      {
+        variant: "text",
+        color: "primary",
+        class:
+          "text-primary1-400 bg-transparent hover:bg-gradient-to-r hover:from-primary1/20 hover:to-primary2/20",
+      },
+      // {
+      //   variant: 'text',
+      //   color: 'secondary',
+      //   class: 'text-gray-600 hover:underline',
+      // },
+      {
+        variant: "text",
+        color: "destructive",
+        class: "text-red-600 hover:underline",
+      },
+      {
+        variant: "text",
+        color: "constructive",
+        class: "text-green-600 hover:underline",
+      },
+      {
+        variant: "link",
+        color: "primary",
+        class: "p-0 bg-transparent text-primary1 hover:underline",
+      },
+    ],
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "contained",
+      color: "primary",
+      size: "md",
     },
   }
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color">,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+  // asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+  ({ className, variant, color, size, ...props }, ref) => {
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+      <button
         ref={ref}
+        className={twMerge(buttonVariants({ variant, color, size }), className)}
         {...props}
       />
     );
   }
 );
+
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+export default Button;

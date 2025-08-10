@@ -1,4 +1,5 @@
-export * from "./ui/button";
+export { default as Button } from "./ui/button";
+export { default as Typography } from "./ui/typography";
 export * from "./ui/input";
 export * from "./ui/card";
 export * from "./ui/accordion";

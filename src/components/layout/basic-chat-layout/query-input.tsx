@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components";
 import { Input } from "@/components/ui/input";
 import { SendIcon } from "lucide-react";
 import React from "react";
@@ -11,8 +11,8 @@ const QueryInput = () => {
         placeholder="Ask anything Synkluna is here to help"
       />
       <Button
-        variant="ghost"
-        size="icon"
+        variant={"text"}
+        color={"primary"}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white"
       >
         <SendIcon className="w-6 h-6" />
