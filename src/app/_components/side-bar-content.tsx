@@ -22,7 +22,7 @@ const SideBarContent = () => {
 
   return (
     <>
-      <div className="flex flex-col items-stretch px-4 py-2 w-full">
+      <div className="flex flex-col items-stretch px-[var(--synkluna-rag-padding-x)] py-2 w-full">
         {/* New char button */}
         <Link href={"/"} target="_parent">
           <MenuItem className="text-sm">
@@ -38,7 +38,7 @@ const SideBarContent = () => {
             <AccordionTrigger className="w-full group">
               <MenuItem className="flex items-center justify-between w-full text-sm">
                 <div className="inline-flex items-end gap-[9px]">
-                  <DatabaseIcon className="w-5 h-5" />
+                  <DatabaseIcon className="size-4" />
                   <div className="">Store usage</div>
                 </div>
                 <ChevronDownIcon className="h-5 w-5 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180 text-primary1" />
@@ -59,7 +59,7 @@ const SideBarContent = () => {
             <AccordionTrigger className="w-full group">
               <MenuItem className="flex items-center justify-between w-full text-sm">
                 <div className="inline-flex items-end gap-[9px]">
-                  <TicketIcon className="w-5 h-5" />
+                  <TicketIcon className="size-4" />
                   <Typography variant="body2">Tokens usage</Typography>
                 </div>
                 <ChevronDownIcon className="h-5 w-5 shrink-0 text-primary1  transition-transform duration-200 group-data-[state=open]:rotate-180" />

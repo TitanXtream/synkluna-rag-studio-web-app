@@ -1,9 +1,10 @@
-import { cva, VariantProps } from "class-variance-authority";
-import { twMerge } from "tailwind-merge";
 import React from "react";
 
+import { cva, VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
+
 const buttonVariants = cva(
-  "flex items-center justify-center font-semibold duration-150 hover:scale-105 active:scale-95 focus:outline-none outline-none ring-0 disabled:opacity-50 disabled:pointer-events-none rounded-full",
+  "flex items-center justify-center font-semibold duration-150 hover:scale-105 active:scale-95 focus:outline-none outline-none ring-0 disabled:opacity-50 disabled:pointer-events-none rounded-full cursor-pointer",
   {
     variants: {
       variant: {
@@ -15,15 +16,16 @@ const buttonVariants = cva(
       color: {
         primary:
           "bg-gradient-to-r from-primary1 to-primary2 text-white border-primary1",
-        // secondary: 'text-white bg-gray-600 hover:bg-gray-700 border-gray-600',
+        secondary: "text-white bg-gray-600 hover:bg-gray-700 border-gray-600",
         destructive: "text-white bg-red-600 hover:bg-red-700 border-red-600",
         constructive:
           "text-white bg-green-600 hover:bg-green-700 border-green-600",
       },
       size: {
-        sm: "px-6 py-2 min-h-10",
-        md: "px-8 py-4 min-h-14",
-        lg: "px-8 py-6 min-h-18",
+        xs: "min-h-9 min-w-9",
+        sm: "min-h-10 min-w-10",
+        md: "min-h-14 min-w-14",
+        lg: "min-h-18 min-w-18",
       },
     },
     compoundVariants: [
@@ -33,11 +35,11 @@ const buttonVariants = cva(
         class:
           "bg-transparent text-primary1-400 hover:text-primary1-600 hover:bg-primary1-200",
       },
-      // {
-      //   variant: 'outlined',
-      //   color: 'secondary',
-      //   class: 'bg-transparent text-gray-600 hover:bg-gray-50',
-      // },
+      {
+        variant: "outlined",
+        color: "secondary",
+        class: "bg-transparent text-white hover:bg-gray-50",
+      },
       {
         variant: "outlined",
         color: "destructive",
@@ -54,11 +56,11 @@ const buttonVariants = cva(
         class:
           "text-primary1-400 bg-transparent hover:bg-gradient-to-r hover:from-primary1/20 hover:to-primary2/20",
       },
-      // {
-      //   variant: 'text',
-      //   color: 'secondary',
-      //   class: 'text-gray-600 hover:underline',
-      // },
+      {
+        variant: "text",
+        color: "secondary",
+        class: "text-white bg-transparent hover:bg-gray-600/50",
+      },
       {
         variant: "text",
         color: "destructive",
@@ -89,7 +91,7 @@ export interface ButtonProps
   // asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, color, size, ...props }, ref) => {
     return (
       <button
@@ -101,6 +103,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = "Button";
+IconButton.displayName = "IconButton";
 
-export default Button;
+export default IconButton;

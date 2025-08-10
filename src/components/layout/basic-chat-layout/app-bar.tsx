@@ -1,14 +1,25 @@
-import { Button } from "@/components";
+"use client";
+
+import { Button, Typography } from "@/components";
 import { MoreHorizontalIcon } from "lucide-react";
 import React from "react";
+import { useBaseLayoutContext } from "./base-layout-context";
+import IconButton from "@/components/ui/icon-button";
 
 const AppBar = () => {
+  const { isSideBarOpen } = useBaseLayoutContext();
   return (
-    <header className="w-full h-[40px] relative flex items-center justify-between px-4">
-      <div className="font-semibold text-[#d9d9d9] text-lg">gpt-40</div>
-      <Button variant="text" size="md" className="w-6 h-6 text-white">
+    <header
+      className={`w-full h-[var(--synkluna-rag-top-bar-height)] relative flex items-center justify-between px-4 ${
+        !isSideBarOpen ? "pl-18" : ""
+      }`}
+    >
+      <Typography variant="body2" className="text-white">
+        Gpt-40
+      </Typography>
+      <IconButton variant="text" size="md" className="w-6 h-6 text-white">
         <MoreHorizontalIcon className="h-6 w-6" />
-      </Button>
+      </IconButton>
     </header>
   );
 };
