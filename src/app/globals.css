@@ -123,6 +123,9 @@ body {
   --synkluna-rag-top-bar-height: 3rem;
   --synkluna-rag-bottom-bar-height: 60px;
   --synkluna-rag-padding-x: 1rem;
+
+  --query-input-border-width:0.2rem;
+  --query-input-border-radius:1rem;
  
 }
 
