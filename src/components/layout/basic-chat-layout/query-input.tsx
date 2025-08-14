@@ -76,6 +76,7 @@ export default function QueryInput({
   };
 
   const submit = () => {
+    console.log("submit");
     const trimmed = value.trim();
     if (!trimmed) return;
     onSubmit?.(trimmed);
@@ -108,7 +109,10 @@ export default function QueryInput({
 
           <motion.div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[calc(100%_+_2*var(--synkluna-query-input-border-width))] h-[calc(100%_+_2*var(--synkluna-query-input-border-width))] group-data-[focused=true]:bg-gradient-to-r from-primary1 to-primary2 z-1 rounded-[calc(var(--synkluna-query-input-border-radius)_+_var(--synkluna-query-input-border-width))]"></motion.div>
           <form
-            onSubmit={submit}
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit();
+            }}
             className="flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-900 rounded-[var(--synkluna-query-input-border-radius)]"
           >
             {/* Left utility (+) */}

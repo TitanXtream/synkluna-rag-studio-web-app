@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChatContainer = () => {
+const ChatContainer = ({ output }: { output: string }) => {
   const messages = [
     {
       id: 1,
@@ -144,6 +144,7 @@ const ChatContainer = () => {
           </div>
         </li>
       ))}
+      {output}
     </ul>
   );
 };
