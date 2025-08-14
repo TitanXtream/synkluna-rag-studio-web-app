@@ -30,9 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* {children} */}
-        <BaseLayout sidebar={<SideBarContent />}>
-          <div></div>
-        </BaseLayout>
+        <BaseLayout sidebar={<SideBarContent />}>{children}</BaseLayout>
       </body>
     </html>
   );

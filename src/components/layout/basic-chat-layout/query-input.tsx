@@ -22,8 +22,8 @@ import IconButton from "@/components/ui/icon-button";
  *
  * Tailwind: designed for a full‑width footer bar, but it’s container‑agnostic.
  */
-export default function QueryInput2({
-  placeholder = "Message…",
+export default function QueryInput({
+  placeholder = "Ask me anything...",
   maxRows = 8,
   minRows = 1,
   onSubmit,
@@ -86,18 +86,18 @@ export default function QueryInput2({
 
   return (
     <div className="w-full h-[80px] relative">
-      <div className="mx-auto max-w-4xl px-4 absolute bottom-[1rem] w-full left-1/2 translate-x-[-50%]">
+      <div className="mx-auto max-w-[var(--synkluna-query-chat-system-width)] px-4 absolute bottom-[1rem] w-full left-1/2 translate-x-[-50%]">
         <motion.div
           className={[
             "relative group",
-            "rounded-3xl",
-            "border-2 ",
-            "bg-blue-500/10 dark:bg-red-500",
+
+            "border-2 border-transparent",
             "backdrop-blur",
+            "rounded-[calc(var(--synkluna-query-input-border-radius)_+_var(--synkluna-query-input-border-width))]",
             // "supports-[backdrop-filter]:bg-background/60",
             "shadow-sm",
             "transition",
-            disabled ? "opacity-60" : focused ? "ring-1 ring-primary/50" : "",
+            disabled ? "opacity-60" : "",
           ].join(" ")}
           onClick={() => {
             textareaRef.current?.focus();
@@ -106,10 +106,10 @@ export default function QueryInput2({
         >
           {/* Inner layout */}
 
-          <motion.div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[calc(100%_+_var(--query-input-border-width))] h-[calc(100%_+_var(--query-input-border-width))] group-data-[focused=true]:bg-gradient-to-r from-primary1 to-primary2 z-1 rounded-[calc(var(--query-input-border-radius)_+_0.5*var(--query-input-border-width))]"></motion.div>
+          <motion.div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[calc(100%_+_2*var(--synkluna-query-input-border-width))] h-[calc(100%_+_2*var(--synkluna-query-input-border-width))] group-data-[focused=true]:bg-gradient-to-r from-primary1 to-primary2 z-1 rounded-[calc(var(--synkluna-query-input-border-radius)_+_var(--synkluna-query-input-border-width))]"></motion.div>
           <form
             onSubmit={submit}
-            className="flex items-end gap-2 p-3 sm:p-4 relative z-2 bg-neutral-900 rounded-[var(--query-input-border-radius)]"
+            className="flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-900 rounded-[var(--synkluna-query-input-border-radius)]"
           >
             {/* Left utility (+) */}
             {/* <button

@@ -20,6 +20,13 @@ body {
 }
 
 @theme {
+
+  --synkluna-color-background-dark-1:#111827;
+  --synkluna-color-background-dark-2:#000000;
+
+  --synkluna-color-card-background-dark-1:#1f2937;
+  
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -124,8 +131,15 @@ body {
   --synkluna-rag-bottom-bar-height: 60px;
   --synkluna-rag-padding-x: 1rem;
 
-  --query-input-border-width:0.2rem;
-  --query-input-border-radius:1rem;
+  --synkluna-query-input-border-width:0.1rem;
+  --synkluna-query-input-border-radius:1rem;
+
+  --synkluna-chat-container-bottom-padding:8rem;
+  --synkluna-chat-container-message-gap:2.5rem;
+  --synkluna-chat-container-user-message-max-width:30rem;
+  --synkluna-chat-container-user-message-radius:var(--synkluna-query-input-border-radius);
+
+  --synkluna-query-chat-system-width: 50rem;
  
 }
 
