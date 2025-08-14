@@ -111,7 +111,10 @@ export default function QueryInput({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              submit();
+              const f = new FormData(e.currentTarget as HTMLFormElement);
+              const q = String(f.get("q") || "").trim();
+              if (q) onSubmit?.(q);
+              (e.currentTarget as HTMLFormElement).reset();
             }}
             className="flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-900 rounded-[var(--synkluna-query-input-border-radius)]"
           >
