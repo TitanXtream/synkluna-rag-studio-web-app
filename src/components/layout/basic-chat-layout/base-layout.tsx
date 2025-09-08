@@ -12,7 +12,8 @@ const BaseLayout = ({
 }) => {
   return (
     <BaseLayoutProvider>
-      <div className="w-full flex gap-0 bg-gradient-to-br from-[var(--synkluna-color-background-dark-1)] via-[var(--synkluna-color-background-dark-2)] to-[var(--synkluna-color-background-dark-1)] h-screen max-h-screen overflow-hidden items-stretch">
+      {/* <div className="w-full flex gap-0 bg-gradient-to-br from-[var(--synkluna-color-background-dark-1)] via-[var(--synkluna-color-background-dark-2)] to-[var(--synkluna-color-background-dark-1)] h-screen max-h-screen overflow-hidden items-stretch"> */}
+      <div className="w-full flex gap-0 h-screen max-h-screen overflow-hidden items-stretch bg-[url(/rag-bg.jpg)] object bg-cover">
         <SideBar>{sidebar}</SideBar>
         <div className="flex flex-col gap-0 max-h-screen items-stretch flex-1">
           <AppBar />

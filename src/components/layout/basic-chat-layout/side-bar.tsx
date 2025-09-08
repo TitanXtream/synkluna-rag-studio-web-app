@@ -29,8 +29,8 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
         onOpenChange={setIsSideBarOpen}
       >
         <div
-          className="flex flex-col w-[300px] h-auto items-start overflow-auto relative z-[4]"
-          style={{ background: "var(--color-gradient)" }}
+          className="flex flex-col w-[300px] h-auto items-start overflow-auto relative z-[4] bg-[#090909]"
+          // style={{ background: "var(--color-gradient)" }}
         >
           {/* Header with logo and toggle */}
           <div className="sticky top-0 inset-x-0 flex h-12 items-center justify-between px-[var(--synkluna-rag-padding-x)] py-2 w-full z-5">

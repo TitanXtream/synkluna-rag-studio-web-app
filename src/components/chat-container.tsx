@@ -100,14 +100,14 @@ const ChatContainer = () => {
   };
 
   return (
-    <ul className="p-4 w-full max-w-4xl mx-auto flex flex-col gap-4">
+    <ul className="p-4 w-full max-w-[var(--synkluna-query-chat-system-width)] mx-auto flex flex-col gap-4">
       {messages.map((message) => (
         <li
           key={message.id}
           data-role={message.role}
           className="flex items-start gap-4 data-[role=user]:justify-end"
         >
-          {message.role === "assistant" && (
+          {/* {message.role === "assistant" && (
             <img
               src="/zed.svg"
               alt="Assistant"
@@ -115,9 +115,9 @@ const ChatContainer = () => {
               height={40}
               className="rounded-full bg-black shadow-lg"
             />
-          )}
+          )} */}
           <div
-            className="max-w-[80%] rounded-lg px-4 py-3 shadow-sm data-[role=user]:bg-blue-500 data-[role=user]:text-white data-[role=assistant]:bg-white data-[role=assistant]:text-gray-800 dark:data-[role=assistant]:bg-gray-800 dark:data-[role=assistant]:text-gray-200"
+            className="data-[role=user]:max-w-[50%] data-[role=user]:rounded-[var(--synkluna-chat-container-user-message-radius)] px-4 py-3 shadow-sm data-[role=user]:bg-neutral-900 text-white dark:data-[role=assistant]:text-gray-200"
             data-role={message.role}
           >
             {message.role === "assistant" && message.text === "" ? (
@@ -218,11 +218,11 @@ const ChatContainer = () => {
               </ReactMarkdown>
             )}
           </div>
-          {message.role === "user" && (
+          {/* {message.role === "user" && (
             <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center font-semibold text-white shadow-lg">
               U
             </div>
-          )}
+          )} */}
         </li>
       ))}
       <div ref={messageEndRef} />
