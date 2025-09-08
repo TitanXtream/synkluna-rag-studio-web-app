@@ -1,5 +1,5 @@
 // streamRaw.ts - POST + parse SSE frames
-export async function streamRaw({
+export async function streamRaw2({
   url,
   body,
   onToken,
@@ -9,7 +9,7 @@ export async function streamRaw({
   signal,
 }: {
   url: string;
-  body: any;
+  body: FormData;
   onToken: (t: string) => void;
   onStart?: () => void;
   onDone?: (final: string) => void;
@@ -18,8 +18,7 @@ export async function streamRaw({
 }) {
   const res = await fetch(url, {
     method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
+    body,
     signal,
   });
   if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
@@ -52,8 +51,10 @@ export async function streamRaw({
 
       let event = "message",
         data = "";
-
+      console.log("frame", frame);
       for (const ln of frame.split("\n")) {
+        console.log("ln", ln);
+
         if (ln.startsWith("event:")) {
           event = ln.slice(6).trim(); // event name can be trimmed
         } else if (ln.startsWith("data:")) {

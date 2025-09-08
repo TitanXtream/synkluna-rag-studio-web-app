@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import IconButton from "@/components/ui/icon-button";
+import { useChatContext } from "@/utils/providers/chat-context-provider";
 
 /**
  * ChatComposer – a ChatGPT‑style multiline input bar.
@@ -37,6 +38,10 @@ export default function QueryInput({
   disabled?: boolean;
   autoFocus?: boolean;
 }) {
+  const { send } = useChatContext();
+
+  const onSubmitInternal = onSubmit ?? send;
+
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -79,7 +84,8 @@ export default function QueryInput({
     console.log("submit");
     const trimmed = value.trim();
     if (!trimmed) return;
-    onSubmit?.(trimmed);
+
+    onSubmitInternal(trimmed);
     setValue("");
     // Allow a frame for value to clear before resize
     requestAnimationFrame(() => resize());
@@ -109,11 +115,12 @@ export default function QueryInput({
 
           <motion.div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[calc(100%_+_2*var(--synkluna-query-input-border-width))] h-[calc(100%_+_2*var(--synkluna-query-input-border-width))] group-data-[focused=true]:bg-gradient-to-r from-primary1 to-primary2 z-1 rounded-[calc(var(--synkluna-query-input-border-radius)_+_var(--synkluna-query-input-border-width))]"></motion.div>
           <form
+            id="query-input-form"
             onSubmit={(e) => {
               e.preventDefault();
               const f = new FormData(e.currentTarget as HTMLFormElement);
               const q = String(f.get("q") || "").trim();
-              if (q) onSubmit?.(q);
+              if (q) onSubmitInternal?.(q);
               (e.currentTarget as HTMLFormElement).reset();
             }}
             className="flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-900 rounded-[var(--synkluna-query-input-border-radius)]"
@@ -162,7 +169,8 @@ export default function QueryInput({
 
               <IconButton
                 type="submit"
-                // onClick={submit}
+                form="query-input-form"
+                onClick={submit}
                 disabled={!canSend}
                 size={"sm"}
                 className={[

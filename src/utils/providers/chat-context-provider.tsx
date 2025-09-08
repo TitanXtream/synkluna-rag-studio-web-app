@@ -1,57 +1,83 @@
-import { useSSE } from "@/hooks/useSSE";
-import React, { createContext, useEffect } from "react";
-import { SynklunaMessage, SynklunaMessageType } from "../types";
+"use client";
+
+import React, { createContext, useCallback, useRef, useState } from "react";
+
+import { streamRaw } from "../streamRaw";
+
+import { SynklunaLLMMessage } from "../types";
 
 type ChatContextProviderValue = {
-  messages: any[];
-  addMessage: (message: SynklunaMessageType) => void;
-  removeMessage: (messageId: string) => void;
-  status: string;
-  runQuery: (prompt: string) => void;
-  text: string;
+  send: (prompt: string) => Promise<void>;
+  messages: SynklunaLLMMessage[];
+  isLoading: boolean;
 };
 
 const ChatContext = createContext<ChatContextProviderValue | null>(null);
 
 const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [messages, setMessages] = React.useState<any[]>([]);
+  const [messages, setMessages] = useState<SynklunaLLMMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
 
-  const addMessage = (message: SynklunaMessageType) => {
-    setMessages((prev) => [...prev, message]);
+  const send = async (prompt: string) => {
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
+    const userMessage: SynklunaLLMMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      text: prompt,
+    };
+    const assistantMessage: SynklunaLLMMessage = {
+      id: userMessage.id + "-asst",
+      role: "assistant",
+      text: "",
+    };
+
+    setMessages((prev) => [...prev, userMessage, assistantMessage]);
+    setIsLoading(true);
+
+    streamRaw({
+      url: `${process.env.NEXT_PUBLIC_BASE_API_URL}/chat/stream`,
+      body: { prompt },
+      signal: abortRef.current.signal,
+      onStart: () => {
+        // The assistant message is already created with empty text.
+      },
+      onToken: (token) => {
+        setMessages((currentMessages) =>
+          currentMessages.map((msg) =>
+            msg.id === assistantMessage.id
+              ? { ...msg, text: msg.text + token }
+              : msg
+          )
+        );
+      },
+      onDone: () => {
+        setIsLoading(false);
+      },
+      onError: (error) => {
+        setMessages((currentMessages) =>
+          currentMessages.map((msg) =>
+            msg.id === assistantMessage.id
+              ? {
+                  ...msg,
+                  text:
+                    msg.text +
+                    `
+
+[Error: ${error}]`,
+                }
+              : msg
+          )
+        );
+        setIsLoading(false);
+      },
+    });
   };
-
-  const removeMessage = (messageId: string) => {
-    setMessages((prev) => prev.filter((message) => message.id !== messageId));
-  };
-
-  const { text, status, start } = useSSE();
-
-  const runQuery = (prompt: string) => {
-    addMessage(new SynklunaMessage("user", prompt));
-    if (!prompt.trim()) return;
-    start(`${process.env.NEXT_PUBLIC_API_URL}/stream`, { prompt });
-  };
-
-  //   useEffect(() => {
-  //     if (text) {
-  //       addMessage({
-  //         id: Date.now().toString(),
-  //         text,
-  //         type: "output",
-  //       });
-  //     }
-  //   }, [text]);
-
-  useEffect(() => {
-    if (status === "done") {
-      addMessage(new SynklunaMessage("assistant", text));
-    }
-  }, [status]);
 
   return (
-    <ChatContext.Provider
-      value={{ messages, addMessage, removeMessage, status, runQuery, text }}
-    >
+    <ChatContext.Provider value={{ send, messages, isLoading }}>
       {children}
     </ChatContext.Provider>
   );
@@ -59,6 +85,14 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
 
 export default ChatContextProvider;
 
+const useChatContext = () => {
+  const context = React.useContext(ChatContext);
+  if (!context) {
+    throw new Error("useChatContext must be used within a ChatContextProvider");
+  }
+  return context;
+};
+
 const ChatContextConsumer = ChatContext.Consumer;
 
-export { ChatContextConsumer };
+export { ChatContextConsumer, useChatContext };
