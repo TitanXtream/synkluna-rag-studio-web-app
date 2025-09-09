@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <ChatContextProvider>
       <>
-        <div className="flex flex-col gap-0 max-h-screen items-stretch flex-1 overflow-auto">
+        <div className="flex flex-col gap-0 items-stretch flex-1 overflow-auto">
           <ChatContainer />
         </div>
         <footer className="flex items-center justify-center h-[60px] px-4">

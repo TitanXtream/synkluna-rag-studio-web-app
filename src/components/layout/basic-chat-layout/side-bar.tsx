@@ -12,7 +12,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-1 px-4 h-[var(--synkluna-rag-top-bar-height)] flex items-center">
+      <div className="fixed top-0 left-0 z-1 px-4 h-[var(--synkluna-rag-top-bar-height)] flex items-center shrink-0">
         <IconButton
           variant="text"
           color="secondary"
@@ -33,7 +33,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
           // style={{ background: "var(--color-gradient)" }}
         >
           {/* Header with logo and toggle */}
-          <div className="sticky top-0 inset-x-0 flex h-12 items-center justify-between px-[var(--synkluna-rag-padding-x)] py-2 w-full z-5">
+          <div className="sticky top-0 inset-x-0 flex h-[var(--synkluna-rag-top-bar-height)] items-center justify-between px-[var(--synkluna-rag-padding-x)] py-2 w-full z-5">
             <div className="relative w-11 h-11">
               <div className="relative h-11">{/* Logo */}</div>
             </div>

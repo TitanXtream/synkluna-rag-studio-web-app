@@ -10,7 +10,7 @@ const AppBar = () => {
   const { isSideBarOpen } = useBaseLayoutContext();
   return (
     <header
-      className={`w-full h-[var(--synkluna-rag-top-bar-height)] relative flex items-center justify-between px-4 ${
+      className={`w-full h-[var(--synkluna-rag-top-bar-height)] relative shrink-0 flex items-center justify-between px-4 ${
         !isSideBarOpen ? "pl-18" : ""
       }`}
     >

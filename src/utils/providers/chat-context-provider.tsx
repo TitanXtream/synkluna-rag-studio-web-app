@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useCallback, useRef, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 
 import { streamRaw } from "../streamRaw";
 
@@ -32,6 +32,7 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
       id: userMessage.id + "-asst",
       role: "assistant",
       text: "",
+      isLoading: true,
     };
 
     setMessages((prev) => [...prev, userMessage, assistantMessage]);
@@ -56,6 +57,11 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
         );
       },
       onDone: () => {
+        setMessages((currentMessages) =>
+          currentMessages.map((msg) =>
+            msg.id === assistantMessage.id ? { ...msg, isLoading: false } : msg
+          )
+        );
         setIsLoading(false);
       },
       onError: (error) => {
@@ -64,6 +70,7 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
             msg.id === assistantMessage.id
               ? {
                   ...msg,
+                  isLoading: false,
                   text:
                     msg.text +
                     `
