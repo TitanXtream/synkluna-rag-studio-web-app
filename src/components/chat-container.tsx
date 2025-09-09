@@ -10,12 +10,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { visit } from "unist-util-visit";
 
 const ChatContainer = () => {
+  const [inlinesCount, setInlinesCount] = useState(0);
   const remarkNormalizeLang = () => (tree: any) => {
     const map: Record<string, string> = {
-      jsximprot: "jsx",
+      jsximport: "jsx",
       jsimport: "jsx",
       tsimport: "ts",
       pythonimport: "py",
+      javascript: "js",
       sql: "sql",
       js: "js",
       json: "json",
@@ -41,6 +43,9 @@ const ChatContainer = () => {
     visit(tree, "code", (node: any) => {
       if (!node.lang) return;
       const lang = node.lang.toLowerCase();
+      console.log("Actual lang", lang);
+      console.log("Mapped lang", map[lang]);
+
       node.lang = map[lang] ?? (known.has(lang) ? lang : "text");
     });
   };
@@ -100,14 +105,15 @@ const ChatContainer = () => {
   };
 
   return (
-    <ul className="p-4 w-full max-w-[var(--synkluna-query-chat-system-width)] mx-auto flex flex-col gap-4">
-      {messages.map((message) => (
-        <li
-          key={message.id}
-          data-role={message.role}
-          className="flex items-start gap-4 data-[role=user]:justify-end"
-        >
-          {/* {message.role === "assistant" && (
+    <ul className="w-full max-w-[var(--synkluna-query-chat-system-width)] mx-auto flex flex-col gap-4 @container items-stretch px-4">
+      {messages.map((message) => {
+        return (
+          <li
+            key={message.id}
+            data-role={message.role}
+            className="flex items-start gap-4 data-[role=user]:justify-end w-full"
+          >
+            {/* {message.role === "assistant" && (
             <img
               src="/zed.svg"
               alt="Assistant"
@@ -116,115 +122,115 @@ const ChatContainer = () => {
               className="rounded-full bg-black shadow-lg"
             />
           )} */}
-          <div
-            className="data-[role=user]:max-w-[50%] data-[role=user]:rounded-[var(--synkluna-chat-container-user-message-radius)] px-4 py-3 shadow-sm data-[role=user]:bg-neutral-900 text-white dark:data-[role=assistant]:text-gray-200"
-            data-role={message.role}
-          >
-            {message.role === "assistant" && message.text === "" ? (
-              <div className="flex items-center gap-2">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-500"></div>
-                <span>Generating...</span>
-              </div>
-            ) : (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkNormalizeLang]}
-                components={{
-                  h1: ({ children }) => (
-                    <h1 className="text-2xl font-bold mb-4">{children}</h1>
-                  ),
-                  h2: ({ children }) => (
-                    <h2 className="text-xl font-bold mb-3">{children}</h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-lg font-bold mb-2">{children}</h3>
-                  ),
-                  p: ({ children }) => (
-                    <p className="leading-relaxed">{children}</p>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="list-disc ml-6 mb-2 space-y-1">
-                      {children}
-                    </ul>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="list-decimal ml-6 mb-2 space-y-1">
-                      {children}
-                    </ol>
-                  ),
-                  code: ({
-                    node,
-                    inline,
-                    className,
-                    children,
-                    ...props
-                  }: any) => {
-                    const codeText = String(children).replace(/\n$/, "");
+            <div
+              className="data-[role=user]:max-w-[70%] max-w-full data-[role=user]:rounded-[var(--synkluna-chat-container-user-message-radius)] data-[role=user]:px-4 py-3 shadow-sm data-[role=user]:bg-neutral-850 text-white dark:data-[role=assistant]:text-gray-200"
+              data-role={message.role}
+            >
+              {message.role === "assistant" && message.text === "" ? (
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-500"></div>
+                  <span>Generating...</span>
+                </div>
+              ) : (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm, remarkNormalizeLang]}
+                  components={{
+                    h1: ({ children }) => (
+                      <h1 className="text-2xl font-bold mb-4">{children}</h1>
+                    ),
+                    h2: ({ children }) => (
+                      <h2 className="text-xl font-bold mb-3">{children}</h2>
+                    ),
+                    h3: ({ children }) => (
+                      <h3 className="text-lg font-bold mb-2">{children}</h3>
+                    ),
+                    p: ({ children }) => (
+                      <p className="leading-relaxed">{children}</p>
+                    ),
+                    ul: ({ children }) => (
+                      <ul className="list-disc ml-6 mb-2 space-y-1">
+                        {children}
+                      </ul>
+                    ),
+                    ol: ({ children }) => (
+                      <ol className="list-decimal ml-6 mb-2 space-y-1">
+                        {children}
+                      </ol>
+                    ),
+                    code: ({ node, className, children, ...props }: any) => {
+                      // const codeText = String(children).replace(/\n$/, "");
 
-                    // Heuristic to treat short, single-line code blocks as inline
-                    const isLikelyInline =
-                      inline ||
-                      (codeText.length < 25 && !codeText.includes("\n"));
-
-                    if (isLikelyInline) {
-                      return (
-                        <code
-                          className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1.5 py-1 rounded text-sm font-mono mx-1"
-                          {...props}
-                        >
-                          {children}
-                        </code>
-                      );
-                    }
-
-                    // The rest is for actual code blocks
-                    const match = /language-(\w+)/.exec(className || "");
-                    const lang = match ? match[1] : undefined;
-                    const formattedCode = formatCode(codeText, lang);
-
-                    return (
-                      <div className="relative my-4 text-sm">
-                        <button
-                          onClick={() =>
-                            copyToClipboard(formattedCode, message.id)
-                          }
-                          className="absolute right-2 top-2 bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded text-xs z-10"
-                        >
-                          {copiedMessageId === message.id ? "Copied!" : "Copy"}
-                        </button>
-                        {match ? (
-                          <SyntaxHighlighter
-                            style={oneDark}
-                            language={lang}
-                            PreTag="div"
-                            className="rounded-lg"
-                            {...props}
-                          >
-                            {formattedCode}
-                          </SyntaxHighlighter>
-                        ) : (
+                      const match = /language-(\w+)/.exec(className || "");
+                      console.log("match : ", match);
+                      if (match) {
+                        const lang = match[1];
+                        console.log("lang : ", lang);
+                        // const formattedCode = formatCode(codeText, lang);
+                        return (
+                          <div className="relative my-4 text-sm max-w-[var(--synkluna-query-chat-system-width)] w-full overflow-hidden bg-red-200 [--stx-highlighter-margin-block:0.5rem]">
+                            <div className="absolute top-[var(--stx-highlighter-margin-block)] inset-x-0 w-full z-[5] border-b border-gray-400 h-[3rem] flex items-center px-4 justify-between gap-4">
+                              <p>{lang}</p>
+                              <button
+                                onClick={
+                                  () => {}
+                                  // copyToClipboard(formattedCode, message.id)
+                                }
+                                className="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded text-xs z-10"
+                              >
+                                {copiedMessageId === message.id
+                                  ? "Copied!"
+                                  : "Copy"}
+                              </button>
+                            </div>
+                            {match ? (
+                              <SyntaxHighlighter
+                                style={oneDark}
+                                language={lang}
+                                PreTag="div"
+                                className="rounded-lg w-full flex overflow-auto min-w-0"
+                                customStyle={{
+                                  paddingTop: "3rem",
+                                  marginBlock:
+                                    "var(--stx-highlighter-margin-block)",
+                                }}
+                                {...props}
+                              >
+                                {children}
+                              </SyntaxHighlighter>
+                            ) : (
+                              <code
+                                className="flex bg-gray-800 p-4 rounded-lg overflow-x-auto text-white"
+                                {...props}
+                              >
+                                {children}
+                              </code>
+                            )}
+                          </div>
+                        );
+                      } else
+                        return (
                           <code
-                            className="block bg-gray-800 p-4 rounded-lg overflow-x-auto text-white"
+                            className="bg-gray-700 dark:bg-gray-700 text-gray-200 dark:text-gray-200 px-1.5 py-[0.1rem] rounded text-sm font-mono mx-1"
                             {...props}
                           >
                             {children}
                           </code>
-                        )}
-                      </div>
-                    );
-                  },
-                }}
-              >
-                {message.text}
-              </ReactMarkdown>
-            )}
-          </div>
-          {/* {message.role === "user" && (
+                        );
+                    },
+                  }}
+                >
+                  {message.text}
+                </ReactMarkdown>
+              )}
+            </div>
+            {/* {message.role === "user" && (
             <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center font-semibold text-white shadow-lg">
               U
             </div>
           )} */}
-        </li>
-      ))}
+          </li>
+        );
+      })}
       <div ref={messageEndRef} />
     </ul>
   );
