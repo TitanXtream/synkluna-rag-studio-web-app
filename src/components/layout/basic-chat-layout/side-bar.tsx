@@ -41,7 +41,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
         <div className="flex w-11 h-11 items-center justify-center py-2.5 text-white">
         <PanelLeftIcon className="w-6 h-6" />
         </div> */}
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <IconButton
                 variant="text"
                 color="secondary"

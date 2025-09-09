@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Slot } from "@radix-ui/react-slot";
 import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
@@ -88,11 +88,13 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color">,
     VariantProps<typeof buttonVariants> {
-  // asChild?: boolean;
+  asChild?: boolean;
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, color, size, ...props }, ref) => {
+  ({ className, variant, color, size, asChild, ...props }, ref) => {
+    const Comp: any = asChild ? Slot : "button";
+
     return (
       <button
         ref={ref}
