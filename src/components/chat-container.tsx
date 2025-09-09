@@ -10,21 +10,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { visit } from "unist-util-visit";
 
 const ChatContainer = () => {
-  const [inlinesCount, setInlinesCount] = useState(0);
   const remarkNormalizeLang = () => (tree: any) => {
-    const map: Record<string, string> = {
-      jsximport: "jsx",
-      jsimport: "jsx",
-      tsimport: "ts",
-      pythonimport: "py",
-      javascript: "js",
-      sql: "sql",
-      js: "js",
-      json: "json",
-      bash: "bash",
-      sh: "sh",
-      text: "text",
-    };
+    // const map: Record<string, string> = {
+    //   jsximport: "jsx",
+    //   jsimport: "jsx",
+    //   tsimport: "ts",
+    //   pythonimport: "py",
+    //   javascript: "js",
+    //   sql: "sql",
+    //   js: "js",
+    //   json: "json",
+    //   bash: "bash",
+    //   sh: "sh",
+    //   text: "text",
+    // };
     const known = new Set([
       "js",
       "javascript",
@@ -43,10 +42,12 @@ const ChatContainer = () => {
     visit(tree, "code", (node: any) => {
       if (!node.lang) return;
       const lang = node.lang.toLowerCase();
+      console.log("lang at visit : ", lang);
+
       // console.log("Actual lang", lang);
       // console.log("Mapped lang", map[lang]);
 
-      node.lang = map[lang] ?? (known.has(lang) ? lang : "text");
+      node.lang = known.has(lang) ? lang : "text";
     });
   };
 
@@ -65,47 +66,47 @@ const ChatContainer = () => {
     setTimeout(() => setCopiedMessageId(null), 2000);
   };
 
-  const formatCode = (code: string, language: string | undefined): string => {
-    let formattedCode = code;
+  // const formatCode = (code: string, language: string | undefined): string => {
+  //   let formattedCode = code;
 
-    // General rule for C-style languages: add newline after semicolons and braces if not present
-    if (
-      language &&
-      [
-        "javascript",
-        "js",
-        "typescript",
-        "ts",
-        "jsx",
-        "tsx",
-        "java",
-        "c",
-        "cpp",
-        "csharp",
-        "css",
-      ].includes(language)
-    ) {
-      formattedCode = formattedCode.replace(/([;{}])(?!["\s}])/g, "$1\n");
-    }
+  //   // General rule for C-style languages: add newline after semicolons and braces if not present
+  //   if (
+  //     language &&
+  //     [
+  //       "javascript",
+  //       "js",
+  //       "typescript",
+  //       "ts",
+  //       "jsx",
+  //       "tsx",
+  //       "java",
+  //       "c",
+  //       "cpp",
+  //       "csharp",
+  //       "css",
+  //     ].includes(language)
+  //   ) {
+  //     formattedCode = formattedCode.replace(/([;{}])(?!["\s}])/g, "$1\n");
+  //   }
 
-    // Python specific formatting
-    if (language === "python") {
-      // Add newlines before def/class that are not at the start of a line
-      formattedCode = formattedCode.replace(
-        /([a-zA-Z0-9_)"'])\\s*(def |class )/g,
-        "$1\n\n$2"
-      );
-    }
+  //   // Python specific formatting
+  //   if (language === "python") {
+  //     // Add newlines before def/class that are not at the start of a line
+  //     formattedCode = formattedCode.replace(
+  //       /([a-zA-Z0-9_)"'])\\s*(def |class )/g,
+  //       "$1\n\n$2"
+  //     );
+  //   }
 
-    if (language === "sql") {
-      formattedCode = formattedCode.replace(/;(?!["\s])/g, ";\n");
-    }
+  //   if (language === "sql") {
+  //     formattedCode = formattedCode.replace(/;(?!["\s])/g, ";\n");
+  //   }
 
-    return formattedCode;
-  };
+  //   return formattedCode;
+  // };
 
   return (
-    <ul className="w-full max-w-[var(--synkluna-query-chat-system-width)] mx-auto flex flex-col gap-4 @container items-stretch px-4">
+    <ul className="w-full max-w-[var(--synkluna-query-chat-system-width)] mx-auto flex flex-col gap-4 @container items-stretch px-4 pb-20">
       {messages.map((message) => {
         return (
           <li
@@ -163,12 +164,12 @@ const ChatContainer = () => {
                       const match = /language-(\w+)/.exec(className || "");
                       if (match) {
                         const lang = match[1];
-                        // console.log("match : ", match);
-                        // console.log("lang : ", lang);
+                        console.log("match : ", match);
+                        console.log("lang : ", lang);
                         // const formattedCode = formatCode(codeText, lang);
                         return (
-                          <div className="relative my-4 text-sm max-w-[var(--synkluna-query-chat-system-width)] w-full overflow-hidden bg-red-200 [--stx-highlighter-margin-block:0.5rem]">
-                            {/* <div className="absolute top-[var(--stx-highlighter-margin-block)] inset-x-0 w-full z-[5] border-b border-gray-400 h-[3rem] flex items-center px-4 justify-between gap-4">
+                          <div className="relative my-4 text-sm max-w-[var(--synkluna-query-chat-system-width)] w-full overflow-hidden [--stx-highlighter-margin-block:0.5rem]">
+                            <div className="absolute top-[var(--stx-highlighter-margin-block)] inset-x-0 w-full z-[5] border-b border-gray-400 h-[3rem] flex items-center px-4 justify-between gap-4">
                               <p>{lang}</p>
                               <button
                                 onClick={
@@ -181,7 +182,7 @@ const ChatContainer = () => {
                                   ? "Copied!"
                                   : "Copy"}
                               </button>
-                            </div> */}
+                            </div>
                             {match ? (
                               <SyntaxHighlighter
                                 style={oneDark}
@@ -189,7 +190,7 @@ const ChatContainer = () => {
                                 PreTag="div"
                                 className="rounded-lg w-full flex overflow-auto min-w-0"
                                 customStyle={{
-                                  paddingTop: "3rem",
+                                  paddingTop: "4rem",
                                   marginBlock:
                                     "var(--stx-highlighter-margin-block)",
                                 }}
