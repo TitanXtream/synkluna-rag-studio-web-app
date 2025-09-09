@@ -43,8 +43,8 @@ const ChatContainer = () => {
     visit(tree, "code", (node: any) => {
       if (!node.lang) return;
       const lang = node.lang.toLowerCase();
-      console.log("Actual lang", lang);
-      console.log("Mapped lang", map[lang]);
+      // console.log("Actual lang", lang);
+      // console.log("Mapped lang", map[lang]);
 
       node.lang = map[lang] ?? (known.has(lang) ? lang : "text");
     });
@@ -161,14 +161,14 @@ const ChatContainer = () => {
                       // const codeText = String(children).replace(/\n$/, "");
 
                       const match = /language-(\w+)/.exec(className || "");
-                      console.log("match : ", match);
                       if (match) {
                         const lang = match[1];
-                        console.log("lang : ", lang);
+                        // console.log("match : ", match);
+                        // console.log("lang : ", lang);
                         // const formattedCode = formatCode(codeText, lang);
                         return (
                           <div className="relative my-4 text-sm max-w-[var(--synkluna-query-chat-system-width)] w-full overflow-hidden bg-red-200 [--stx-highlighter-margin-block:0.5rem]">
-                            <div className="absolute top-[var(--stx-highlighter-margin-block)] inset-x-0 w-full z-[5] border-b border-gray-400 h-[3rem] flex items-center px-4 justify-between gap-4">
+                            {/* <div className="absolute top-[var(--stx-highlighter-margin-block)] inset-x-0 w-full z-[5] border-b border-gray-400 h-[3rem] flex items-center px-4 justify-between gap-4">
                               <p>{lang}</p>
                               <button
                                 onClick={
@@ -181,7 +181,7 @@ const ChatContainer = () => {
                                   ? "Copied!"
                                   : "Copy"}
                               </button>
-                            </div>
+                            </div> */}
                             {match ? (
                               <SyntaxHighlighter
                                 style={oneDark}

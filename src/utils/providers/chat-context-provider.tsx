@@ -45,6 +45,8 @@ const ChatContextProvider = ({ children }: { children: React.ReactNode }) => {
         // The assistant message is already created with empty text.
       },
       onToken: (token) => {
+        // console.log("token : ", JSON.stringify(token));
+
         setMessages((currentMessages) =>
           currentMessages.map((msg) =>
             msg.id === assistantMessage.id

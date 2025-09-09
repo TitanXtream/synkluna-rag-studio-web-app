@@ -63,11 +63,13 @@ export async function streamRaw({
           data += (data ? "\n" : "") + val; // DO NOT trim here
         }
       }
+
       // server sends plain token strings for token events
       try {
         if (event !== "token") data = JSON.parse(data);
       } catch {}
-      push(event, data as any);
+
+      push(event, data || "\n");
     }
   }
 }
