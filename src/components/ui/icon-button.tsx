@@ -93,10 +93,10 @@ export interface ButtonProps
 
 const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, color, size, asChild, ...props }, ref) => {
-    const Comp: any = asChild ? Slot : "button";
+    const Comp = asChild ? Slot : "button";
 
     return (
-      <button
+      <Comp
         ref={ref}
         className={twMerge(buttonVariants({ variant, color, size }), className)}
         {...props}

@@ -17,6 +17,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
           variant="text"
           color="secondary"
           size="sm"
+          disabled
           className="rounded-[0.5rem]"
           onClick={() => setIsSideBarOpen(!isSideBarOpen)}
         >

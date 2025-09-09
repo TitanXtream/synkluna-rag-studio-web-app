@@ -3,7 +3,6 @@
 import React from "react";
 import { cn } from "@/utils/tw-utils"; // or replace with your cn util
 import { TrashIcon } from "lucide-react";
-import { Button } from "@/components";
 
 type DropzoneProps = {
   className?: string;
@@ -63,7 +62,6 @@ export default function DocumentDropzone({
       ok.push(f);
     }
     if (errors.length) {
-      // eslint-disable-next-line no-alert
       alert(errors.join("\n"));
     }
     return ok;

@@ -1,23 +1,11 @@
 "use client";
 
 import { useChatContext } from "@/utils/providers/chat-context-provider";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import oneDark from "react-syntax-highlighter/dist/cjs/styles/prism/one-dark";
 
-import React, { useEffect, useRef, useState } from "react";
-import { visit } from "unist-util-visit";
+import React, { useEffect, useRef } from "react";
 import ChatMessageItem from "./chat-message-item";
 
 const ChatContainer = () => {
-  const remarkNormalizeLang = () => (tree: any) => {
-    visit(tree, "code", (node: any) => {
-      if (!node.lang) return;
-      node.lang = node.lang.toLowerCase();
-    });
-  };
-
   const { messages } = useChatContext();
 
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -28,7 +16,6 @@ const ChatContainer = () => {
         behavior: "smooth",
         block: "nearest",
       });
-    console.log("messages : ", messages);
   }, [messages]);
 
   return (

@@ -12,13 +12,13 @@ import DocumentDropzone from "./document-dropzon";
 import AccordianParametersMenuItem from "./accordian-parameters-menu-item";
 
 const SideBarContent = () => {
-  const thumbnailCards = [
-    { id: 1, text: "Restructuring db data" },
-    { id: 2, text: "Restructuring db data" },
-    { id: 3, text: "Restructuring db data" },
-    { id: 4, text: "Restructuring db data" },
-    { id: 5, text: "Restructuring db data" },
-  ];
+  // const thumbnailCards = [
+  //   { id: 1, text: "Restructuring db data" },
+  //   { id: 2, text: "Restructuring db data" },
+  //   { id: 3, text: "Restructuring db data" },
+  //   { id: 4, text: "Restructuring db data" },
+  //   { id: 5, text: "Restructuring db data" },
+  // ];
 
   return (
     <>

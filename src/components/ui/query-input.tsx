@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import IconButton from "@/components/ui/icon-button";
 import { useChatContext } from "@/utils/providers/chat-context-provider";
 
@@ -81,7 +81,6 @@ export default function QueryInput({
   };
 
   const submit = () => {
-    console.log("submit");
     const trimmed = value.trim();
     if (!trimmed) return;
 
@@ -196,35 +195,35 @@ export default function QueryInput({
   );
 }
 
-// --- Minimal icons (no external lib required) ---
-function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      {...props}
-    >
-      <path strokeLinecap="round" d="M12 5v14M5 12h14" />
-    </svg>
-  );
-}
+// // --- Minimal icons (no external lib required) ---
+// function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       {...props}
+//     >
+//       <path strokeLinecap="round" d="M12 5v14M5 12h14" />
+//     </svg>
+//   );
+// }
 
-function MicIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      {...props}
-    >
-      <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3z" />
-      <path strokeLinecap="round" d="M19 11a7 7 0 0 1-14 0M12 18v3" />
-    </svg>
-  );
-}
+// function MicIcon(props: React.SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       {...props}
+//     >
+//       <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3z" />
+//       <path strokeLinecap="round" d="M19 11a7 7 0 0 1-14 0M12 18v3" />
+//     </svg>
+//   );
+// }
 
 function SendIcon(props: React.SVGProps<SVGSVGElement>) {
   return (

@@ -51,10 +51,7 @@ export async function streamRaw2({
 
       let event = "message",
         data = "";
-      console.log("frame", frame);
       for (const ln of frame.split("\n")) {
-        console.log("ln", ln);
-
         if (ln.startsWith("event:")) {
           event = ln.slice(6).trim(); // event name can be trimmed
         } else if (ln.startsWith("data:")) {
@@ -68,7 +65,7 @@ export async function streamRaw2({
       try {
         if (event !== "token") data = JSON.parse(data);
       } catch {}
-      push(event, data as any);
+      push(event, data);
     }
   }
 }

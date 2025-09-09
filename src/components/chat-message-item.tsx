@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Root, Code } from "mdast";
 import { SynklunaLLMMessage } from "@/utils/types";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -9,8 +10,8 @@ import { Copy, Check } from "lucide-react";
 
 const ChatMessageItem = React.memo(
   ({ message }: { message: SynklunaLLMMessage }) => {
-    const remarkNormalizeLang = () => (tree: any) => {
-      visit(tree, "code", (node: any) => {
+    const remarkNormalizeLang = () => (tree: Root) => {
+      visit(tree, "code", (node: Code) => {
         if (!node.lang) return;
         node.lang = node.lang.toLowerCase();
       });
@@ -22,15 +23,7 @@ const ChatMessageItem = React.memo(
       setTimeout(() => setCopiedMessageId(null), 2000);
     };
 
-    const copyCodeToClipboard = (text: string, messageIndex: string) => {
-      navigator.clipboard.writeText(text);
-      setCopiedMessageId(messageIndex);
-      setTimeout(() => setCopiedMessageId(null), 2000);
-    };
-
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
-
-    console.log("message : ", message.id);
 
     return (
       <li
@@ -79,7 +72,7 @@ const ChatMessageItem = React.memo(
                       {children}
                     </ol>
                   ),
-                  code: ({ node, className, children, ...props }: any) => {
+                  code: ({ className, children, ...props }) => {
                     // const codeText = String(children).replace(/\n$/, "");
 
                     const match = /language-(\w+)/.exec(className || "");
@@ -87,12 +80,9 @@ const ChatMessageItem = React.memo(
                       const lang = match[1];
                       // const formattedCode = formatCode(codeText, lang);
                       return (
-                        <CodeBlock
-                          lang={lang}
-                          children={children}
-                          match={!!match}
-                          props={props}
-                        />
+                        <CodeBlock lang={lang} match={!!match} props={props}>
+                          {children}
+                        </CodeBlock>
                       );
                     } else
                       return (
@@ -135,6 +125,8 @@ const ChatMessageItem = React.memo(
 
 export default ChatMessageItem;
 
+ChatMessageItem.displayName = "ChatMessageItem";
+
 const CodeBlock = ({
   lang,
   children,
@@ -146,7 +138,7 @@ const CodeBlock = ({
   match: boolean;
   props: any;
 }) => {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const onCopy = async () => {
     try {

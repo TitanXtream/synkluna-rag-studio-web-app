@@ -1,9 +1,7 @@
 import ChatContainer from "@/components/chat-container";
 import QueryInput from "@/components/ui/query-input";
 
-import ChatContextProvider, {
-  ChatContextConsumer,
-} from "@/utils/providers/chat-context-provider";
+import ChatContextProvider from "@/utils/providers/chat-context-provider";
 
 export default function Home() {
   return (

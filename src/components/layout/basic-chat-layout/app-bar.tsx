@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Typography } from "@/components";
+import { Typography } from "@/components";
 import { MoreHorizontalIcon } from "lucide-react";
 import React from "react";
 import { useBaseLayoutContext } from "./base-layout-context";
@@ -15,9 +15,14 @@ const AppBar = () => {
       }`}
     >
       <Typography variant="body2" className="text-white">
-        Gpt-40
+        Gpt-4o
       </Typography>
-      <IconButton variant="text" size="md" className="w-6 h-6 text-white">
+      <IconButton
+        variant="text"
+        size="md"
+        className="w-6 h-6 text-white"
+        disabled
+      >
         <MoreHorizontalIcon className="h-6 w-6" />
       </IconButton>
     </header>

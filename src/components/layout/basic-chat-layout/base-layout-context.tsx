@@ -8,7 +8,7 @@ interface BaseLayoutContextType {
 
 const baseLayoutContext = React.createContext<BaseLayoutContextType>({
   isSideBarOpen: false,
-  setIsSideBarOpen: (open: boolean) => {},
+  setIsSideBarOpen: () => {},
 });
 
 const BaseLayoutProvider = ({ children }: { children: React.ReactNode }) => {

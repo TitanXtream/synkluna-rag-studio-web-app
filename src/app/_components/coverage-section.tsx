@@ -29,11 +29,7 @@ export const CoverageSection = () => {
         <div className="absolute top-7 left-5 font-semibold text-[#d9d9d9] text-lg">
           gpt-40
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute w-6 h-6 top-7 right-14"
-        >
+        <Button className="absolute w-6 h-6 top-7 right-14">
           <MoreHorizontalIcon className="h-6 w-6" />
         </Button>
       </header>
@@ -72,10 +68,10 @@ export const CoverageSection = () => {
 
         {/* Action buttons */}
         <div className="flex items-center gap-2.5">
-          <Button variant="ghost" size="icon" className="p-0">
+          <Button className="p-0">
             <CopyIcon className="w-6 h-6" />
           </Button>
-          <Button variant="ghost" size="icon" className="p-0">
+          <Button className="p-0">
             <RefreshCcwIcon className="w-6 h-6" />
           </Button>
         </div>
@@ -88,11 +84,7 @@ export const CoverageSection = () => {
             className="bg-[#424451] rounded-[50px] px-6 py-[18px] h-[60px] text-[#b3b3b3] text-base"
             placeholder="Ask anything Synkluna is here to help"
           />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-1/2 transform -translate-y-1/2"
-          >
+          <Button className="absolute right-4 top-1/2 transform -translate-y-1/2">
             <SendIcon className="w-6 h-6" />
           </Button>
         </div>
