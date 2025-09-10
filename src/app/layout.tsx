@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     countryName: "India",
     description: APP_DESCRIPTION,
     images: openGraphImages,
-    url: APP_INNER_DOMAIN,
+    url: APP_DOMAIN,
   },
 
   twitter: {
