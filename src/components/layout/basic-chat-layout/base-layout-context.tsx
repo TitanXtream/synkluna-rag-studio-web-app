@@ -1,20 +1,29 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 interface BaseLayoutContextType {
   isSideBarOpen: boolean;
   setIsSideBarOpen: (open: boolean) => void;
+  showWelcomeMessage: boolean;
+  setShowWelcomeMessage: (open: boolean) => void;
 }
 
-const baseLayoutContext = React.createContext<BaseLayoutContextType>({
-  isSideBarOpen: false,
-  setIsSideBarOpen: () => {},
-});
+const baseLayoutContext = React.createContext<BaseLayoutContextType | null>(
+  null
+);
 
 const BaseLayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSideBarOpen, setIsSideBarOpen] = React.useState(false);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   return (
-    <baseLayoutContext.Provider value={{ isSideBarOpen, setIsSideBarOpen }}>
+    <baseLayoutContext.Provider
+      value={{
+        isSideBarOpen,
+        setIsSideBarOpen,
+        showWelcomeMessage,
+        setShowWelcomeMessage,
+      }}
+    >
       {children}
     </baseLayoutContext.Provider>
   );

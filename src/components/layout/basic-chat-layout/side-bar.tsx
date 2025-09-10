@@ -6,6 +6,7 @@ import IconButton from "@/components/ui/icon-button";
 import { PanelLeftIcon } from "lucide-react";
 import React from "react";
 import { useBaseLayoutContext } from "./base-layout-context";
+import Image from "next/image";
 
 const SideBar = ({ children }: { children: React.ReactNode }) => {
   const { isSideBarOpen, setIsSideBarOpen } = useBaseLayoutContext();
@@ -13,16 +14,25 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div className="fixed top-0 left-0 z-1 px-4 h-[var(--synkluna-rag-top-bar-height)] flex items-center shrink-0">
-        <IconButton
-          variant="text"
-          color="secondary"
-          size="sm"
-          disabled
-          className="rounded-[0.5rem]"
-          onClick={() => setIsSideBarOpen(!isSideBarOpen)}
-        >
-          <PanelLeftIcon className="size-5" />
-        </IconButton>
+        <div className="relative group flex">
+          <Image
+            src={"/rag_studio_logo.png"}
+            width={100}
+            height={100}
+            alt="Rag Studio logo"
+            className="w-full h-full group-hover:hidden absolute inset-0 z-5"
+          />
+          <IconButton
+            variant="text"
+            color="secondary"
+            size="sm"
+            disabled
+            className="rounded-[0.5rem] "
+            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+          >
+            <PanelLeftIcon className="size-5 opacity-0 group-hover:opacity-100" />
+          </IconButton>
+        </div>
       </div>
       <Dialog
         defaultOpen={true}

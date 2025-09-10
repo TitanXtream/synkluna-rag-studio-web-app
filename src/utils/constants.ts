@@ -12,11 +12,11 @@ export const APP_DESCRIPTION =
 
 export const openGraphImages = [
   {
-    alt: `${COMPANY_NAME} logo`,
+    alt: `${APP_NAME} logo`,
     url: `${APP_INNER_DOMAIN}/opengraph/synkluna-rag-studio-opengraph-image.png`,
   },
   {
-    alt: `${COMPANY_NAME} logo`,
+    alt: `${APP_NAME} logo`,
     url: `${APP_INNER_DOMAIN}/opengraph/synkluna-rag-studio-opengraph-image.jpg`,
   },
 ];

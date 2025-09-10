@@ -92,7 +92,7 @@ export default function QueryInput({
 
   return (
     <div className="w-full h-[80px] relative">
-      <div className="mx-auto max-w-[var(--synkluna-query-chat-system-width)] px-4 absolute bottom-[1rem] w-full left-1/2 translate-x-[-50%]">
+      <div className="mx-auto max-w-[var(--synkluna-query-chat-system-width)] sm:px-4 px-0 absolute bottom-[1rem] w-full left-1/2 translate-x-[-50%]">
         <motion.div
           className={[
             "relative group",
