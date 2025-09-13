@@ -192,3 +192,26 @@ body {
 @custom-variant dark (&:where(.dark, .dark *));
 
 
+/* Fixed input bar, moved by transform for smoothness */
+.input-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0; /* base */
+  transform: translate3d(0, var(--kb, 0px), 0);
+  will-change: transform;
+  z-index: 50;
+}
+
+/* Make sure scroll area is never covered by the bar or keyboard */
+.chat-scroll {
+  padding-bottom: calc(var(--input-h, 56px) + var(--kb, 0px));
+}
+
+/* On iOS Safari, prefer native keyboard inset */
+@supports (bottom: env(keyboard-inset-bottom)) {
+  .input-bar {
+    bottom: env(keyboard-inset-bottom, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}

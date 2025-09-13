@@ -6,10 +6,13 @@ import React, { useEffect, useRef } from "react";
 import ChatMessageItem from "./chat-message-item";
 import { useBaseLayoutContext } from "./layout/basic-chat-layout/base-layout-context";
 import WelcomeBanner from "@/components/welcome-banner";
+import useKeyboard from "@/hooks/useKeyboard";
 
 const ChatContainer = () => {
   const { messages } = useChatContext();
   const { setShowWelcomeMessage, showWelcomeMessage } = useBaseLayoutContext();
+
+  const { open, offset } = useKeyboard();
 
   const messageEndRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +38,8 @@ const ChatContainer = () => {
       className="flex flex-col gap-0 items-stretch overflow-auto flex-1 h-full data-[show-welcome-message=true]:sm:max-h-[42svh] transition-all duration-300"
       data-show-welcome-message={showWelcomeMessage}
     >
+      {open ? "Open" : "Closed"}
+      {offset}
       {showWelcomeMessage ? (
         <div className={`h-full flex sm:items-end items-center justify-center`}>
           <WelcomeBanner />

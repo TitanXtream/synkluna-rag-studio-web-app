@@ -10,6 +10,7 @@ import React, {
 import { motion } from "framer-motion";
 import IconButton from "@/components/ui/icon-button";
 import { useChatContext } from "@/utils/providers/chat-context-provider";
+import useKeyboard from "@/hooks/useKeyboard";
 
 /**
  * ChatComposer – a ChatGPT‑style multiline input bar.
@@ -41,6 +42,8 @@ export default function QueryInput({
   const { send } = useChatContext();
 
   const onSubmitInternal = onSubmit ?? send;
+
+  const { open, offset } = useKeyboard();
 
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
@@ -95,16 +98,20 @@ export default function QueryInput({
       <div className="mx-auto max-w-[var(--synkluna-query-chat-system-width)] sm:px-4 px-0 absolute bottom-[1rem] w-full left-1/2 translate-x-[-50%]">
         <motion.div
           className={[
-            "relative group",
-
+            " group",
             "border-2 border-transparent",
             "backdrop-blur",
             "rounded-[calc(var(--synkluna-query-input-border-radius)_+_var(--synkluna-query-input-border-width))]",
             // "supports-[backdrop-filter]:bg-background/60",
             "shadow-sm",
             "transition",
+            open ? "fixed start-3 end-3 z-50 w-auto!  bg-red-200" : "",
             disabled ? "opacity-60" : "",
           ].join(" ")}
+          style={{
+            bottom: open ? offset + "px" : "",
+            // bottom: "env(keyboard-inset-bottom,0)",
+          }}
           onClick={() => {
             textareaRef.current?.focus();
           }}
@@ -122,7 +129,7 @@ export default function QueryInput({
               if (q) onSubmitInternal?.(q);
               (e.currentTarget as HTMLFormElement).reset();
             }}
-            className="flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-875 rounded-[var(--synkluna-query-input-border-radius)]"
+            className={`flex items-end focus:ring-0 focus:outline-0 gap-2 p-3 sm:p-4 relative z-2 bg-neutral-875 rounded-[var(--synkluna-query-input-border-radius)]`}
           >
             {/* Left utility (+) */}
             {/* <button
